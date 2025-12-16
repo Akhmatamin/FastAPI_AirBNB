@@ -1,7 +1,7 @@
 from datetime import datetime, date
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from .models import Roles, PropertyType, Status
 
 
@@ -9,11 +9,20 @@ class UserSchema(BaseModel):
     id:int
     username: str
     email: str
-    password: str
     phone_number:Optional[str]
     role: Roles
     avatar: str
 
+class UserCreateSchema(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
+    phone_number:Optional[str]
+    avatar: str
+
+class UserLoginSchema(BaseModel):
+    username: str
+    password: str
 
 
 class CityInSchema(BaseModel):

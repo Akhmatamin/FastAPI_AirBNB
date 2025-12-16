@@ -39,6 +39,19 @@ class User(Base):
                                                           cascade='all, delete-orphan')
     user_reviews:Mapped[List['Review']] = relationship('Review', back_populates='guest_review',
                                                        cascade='all, delete-orphan')
+    user_tokens: Mapped[List['RefreshToken']] = relationship('RefreshToken', back_populates='token_user',
+                                                             cascade='all, delete-orphan')
+
+
+class RefreshToken(Base):
+    __tablename__ = 'refresh_tokens'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    token: Mapped[str] = mapped_column(String)
+
+    user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+    token_user:Mapped[User] = relationship('User', back_populates='user_tokens')
+    created_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
 class City(Base):
     __tablename__ = 'city'
 
